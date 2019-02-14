@@ -1,6 +1,6 @@
 # yrdashboard
 
-> A Vue.js project
+> dashboard
 
 ## Build Setup
 
