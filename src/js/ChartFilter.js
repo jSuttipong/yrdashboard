@@ -1,5 +1,6 @@
 import {DATE} from '../js/Date.js'
 import {DATA} from '../js/AllData.js'
+var numeral = require('numeral');
 export const DRAW = {
         chartDataOrder(chartOrder,dataOrder){
             var simpleDate = DATE.getMonth()
@@ -92,7 +93,14 @@ chartDataIncome(chartIncome,dataIncome){
             }]
         },
         options: {
-            responsive: true
+            responsive: true,
+            tooltips: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        return numeral(tooltipItem.yLabel).format('0,0');
+                    }
+                }
+            },
         }
 })
 },
