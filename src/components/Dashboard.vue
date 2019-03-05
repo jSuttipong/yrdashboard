@@ -43,6 +43,7 @@
           </b-row>
         </b-container>
       </div>
+      <h2 class="mt-3 mb-3 cblue">การสั่งOrderและรายได้3เดือนย้อนหลัง</h2>
       <b-row>
         <b-col>
           <h5>Order แต่ละเดือน</h5>
@@ -56,6 +57,7 @@
       </b-row>
     </b-container>
     <b-container class="bgwhite shadow-box border-box mt-3">
+      <h2 class="mb-3 mt-3 cblue">ข้อมูลชนิดสินค้าที่จัดทำ</h2>
       <b-row>
         <b-col>
           <b-row>
@@ -93,8 +95,8 @@
             <b-col>
               <h5>ชนิดของสินค้าทั้งหมด</h5>
               <canvas id="typeOrder-chart"></canvas>
-              <h5>Card :{{chartData[0]}}</h5>
-              <h5>Photobook :{{chartData[1]}}</h5>
+              <h5>Card :{{}}</h5>
+              <h5>Photobook :{{}}</h5>
             </b-col>
             <b-col>
           <h5>สถานะชนิดสินค้า : {{typeOfProduct.name}}</h5>
@@ -135,7 +137,9 @@ export default {
       previousM: [],
       chartData: "",
       chartSelectData: '',
-      isActive: true
+      isActive: true,
+      update: false,
+      defaultRefChartListOrder: ''
     };
   },
   mounted() {
@@ -147,7 +151,6 @@ export default {
         this.dataOrder = result.data.order;
         this.dataUser = result.data.user;
         this.statusOrder = DATA.StatusDataOrder(this.dataOrder);
-        // console.log("allData",this.alldata)
         this.getDate();
         this.drawChart();
       })
@@ -163,6 +166,7 @@ export default {
       this.refChartIncome = document.getElementById("income-chart");
       this.refChartType = document.getElementById("typeOrder-chart");
       this.refChartListOrder = document.getElementById("listOrder-chart");
+      // this.defaultRefChartListOrder = document.getElementById("listOrder-chart");
       DRAW.chartDataOrder(this.refChartOrder, this.dataOrder);
       DRAW.chartDataIncome(this.refChartIncome, this.dataOrder);
       // DRAW.chartDataType(this.refChartType,this.dataOrder)
@@ -210,8 +214,19 @@ export default {
       this.ChangeChartType(this.typeOfProduct, data, this.year);
     },
     ChangeChartType(type, monnth, year) {
-      this.chartData = DRAW.chartDataType(this.refChartType,this.dataOrder,type,monnth,year);
-      DRAW.chartListOrder(this.refChartListOrder,this.dataOrder,type,monnth,year)
+      // document.getElementById('typeOrder-chart').destroy();
+      // this.refChartType = document.getElementById("typeOrder-chart");
+            // console.log('this chenge',this.refChartListOrder)
+
+      // document.getElementById("listOrder-chart").destroy();
+      // this.refChartListOrder = document.getElementById("listOrder-chart");
+      // console.log(document.getElementById("listOrder-chart"))
+      this.chartData.chartType.destroy()
+      this.chartSelectData.destroy()
+      this.update = true
+      this.chartData = DRAW.chartDataType(this.refChartType,this.dataOrder,type,monnth,year,this.update);
+      this.chartSelectData = DRAW.chartListOrder(this.refChartListOrder,this.dataOrder,type,monnth,year,this.update)
+      this.update = false
     },
   }
 };

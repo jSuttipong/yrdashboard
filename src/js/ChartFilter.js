@@ -2,6 +2,7 @@ import {DATE} from '../js/Date.js'
 import {DATA} from '../js/AllData.js'
 var numeral = require('numeral');
 export const DRAW = {
+        chartuser:'',
         chartDataOrder(chartOrder,dataOrder){
             var simpleDate = DATE.getMonth()
             var dataValue = DATA.chartOrderData(dataOrder)
@@ -104,7 +105,7 @@ chartDataIncome(chartIncome,dataIncome){
         }
 })
 },
-chartDataType(chartDataType,dataType,type,month,year){
+chartDataType(chartDataType,dataType,type,month,year,update){
     // var simpleDate = DATE.getMonth()
     var dataValue = DATA.CheckOrderType(dataType,type,month,year)
     var chartType = new Chart(chartDataType, {
@@ -123,12 +124,27 @@ chartDataType(chartDataType,dataType,type,month,year){
             responsive: true
         }
 })
-    return dataValue
+    return {chartType,dataValue}
 },
-chartListOrder(refChart,data,typeOfProduct,monthProduct,year){
+
+chartListOrder(refChart,data,typeOfProduct,monthProduct,year,update){
     // var simpleDate = DATE.getMonth()
+    var chartuser
     var dataValue = DATA.chartListOrder(data,typeOfProduct,monthProduct,year)
-    var chartuser = new Chart(refChart, {
+    // if(update == true){
+    //     refChart.remove()
+        
+    //     document.getElementById('graph-container').append('<canvas id="listOrder-chart"></canvas>');
+    //     refChart = document.getElementById("listOrder-chart")
+    // }
+    // if(update == true){
+    //     window.chartuser.destroy()
+    // }
+    // if (typeof $chartuser !== "undefined") {
+    //     $chartuser.destroy();
+    //   }
+    
+chartuser = new Chart(refChart, {
         type: 'horizontalBar',
         data: {
             labels: [monthProduct.text],
@@ -162,7 +178,9 @@ chartListOrder(refChart,data,typeOfProduct,monthProduct,year){
         },
         options: {
             responsive: true
-        }
+        }   
 })
+return chartuser
 }
+    // chartuser.update();
 }
